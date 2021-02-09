@@ -9,24 +9,28 @@ public class Ball : MonoBehaviour
     public ScoreSO score;
     public Pad pad;
     public int speed;
-    Vector2 force = new Vector2(1,1);
+    Vector2 force;
     bool isStarted;
 
     float radius;
     float padHeight;
+    GameManager gameManager;
 
     private void Start()
     {
         score.Reset();
+        gameManager = FindObjectOfType<GameManager>();
         rb = GetComponent<Rigidbody2D>();
         radius = GetComponent<CircleCollider2D>().radius;
-        padHeight = pad.GetComponent<BoxCollider2D>().size.y;
+        padHeight = pad.GetComponent<BoxCollider2D>().size.y; 
     }
     private void Update()
     {
         if (transform.position.y <= -5.5f)
         {
-            SceneManager.LoadScene("Finish");
+            //SceneManager.LoadScene("Finish");
+            gameManager.DecreaseHealth();
+            isStarted = false;
         }
 
         if (!isStarted)
@@ -41,6 +45,8 @@ public class Ball : MonoBehaviour
 
     void StartBall()
     {
+        force = (new Vector2(Random.Range(-1.0f, 1.0f), 1)).normalized;
+        print(force);
         rb.AddForce(force*speed);
         isStarted = true;
     }
