@@ -14,6 +14,9 @@ public class Block : MonoBehaviour
     LevelChanger levelChanger;
     GameManager gameManager;
 
+    [Tooltip("Effects and prefabs")]
+    public GameObject pickupPrefab;
+
 
     private void Start()
     {
@@ -38,10 +41,16 @@ public class Block : MonoBehaviour
 
         if(hits <= 0)
         {
-            gameManager.UpdateScore(points);
-            levelChanger.BlockDestroyed();
-            Destroy(gameObject);
+            DestroyBlock();
         }
 
+    }
+
+    private void DestroyBlock()
+    {
+        gameManager.UpdateScore(points);
+        levelChanger.BlockDestroyed();
+        Destroy(gameObject);
+        //Instantiate(pickupPrefab);
     }
 }

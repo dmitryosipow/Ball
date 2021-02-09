@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
     public HealthBar healthBar;
     public Text scoreText;
     int score;
-    int currentHealth;
+    public int currentHealth;
 
     private void Awake()
     {
@@ -23,12 +23,12 @@ public class GameManager : MonoBehaviour
             }
 
         }
-        currentHealth = 3;
-        healthBar.currentHealth = currentHealth;
     }
     // Start is called before the first frame update
     void Start()
     {
+        currentHealth = 3;
+        healthBar.currentHealth = currentHealth;
         DontDestroyOnLoad(gameObject);
         UpdateScore(0);
     }
@@ -47,5 +47,11 @@ public class GameManager : MonoBehaviour
         {
             SceneManager.LoadScene("Finish");
         }
+    }
+
+    public void RestartLevel()
+    {
+        currentHealth = 3;
+        healthBar.currentHealth = currentHealth;
     }
 }

@@ -21,6 +21,8 @@ public class LevelChanger : MonoBehaviour
             //УРОВЕНЬ ПРОЙДЕН
             int index = SceneManager.GetActiveScene().buildIndex;
             SceneManager.LoadScene(index + 1);
+            GameManager gM = FindObjectOfType<GameManager>();
+            gM.RestartLevel();
         }
     }
 }
