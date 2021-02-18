@@ -29,8 +29,6 @@ public class Ball : MonoBehaviour
         if (transform.position.y <= -5.5f)
         {
             //SceneManager.LoadScene("Finish");
-            gameManager.DecreaseHealth();
-            isStarted = false;
         }
 
         if (!isStarted)
@@ -41,19 +39,23 @@ public class Ball : MonoBehaviour
                 StartBall();
             }
         }
+        else
+        {
+            rb.velocity = rb.velocity.normalized * speed;
+        }
     }
 
     void StartBall()
     {
-        force = (new Vector2(Random.Range(-1.0f, 1.0f), 1)).normalized;
-        print(force);
-        rb.AddForce(force*speed);
+        force = (new Vector2(Random.Range(-1.0f, 1.0f), 1)).normalized * speed;
+        /*print(force);
+        rb.AddForce(force*speed);*/
+        rb.velocity = force;
         isStarted = true;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        print("Hit");
         if(collision.gameObject.tag == "player")
         {
             score.AddHit();
@@ -62,6 +64,11 @@ public class Ball : MonoBehaviour
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        print("Go out");
+
+    }
+
+    public void Restart()
+    {
+        isStarted = false;
     }
 }

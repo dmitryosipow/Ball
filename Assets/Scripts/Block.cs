@@ -16,18 +16,31 @@ public class Block : MonoBehaviour
 
     [Tooltip("Effects and prefabs")]
     public GameObject pickupPrefab;
+    public bool invisible;
 
 
     private void Start()
     {
-        spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
         levelChanger = FindObjectOfType<LevelChanger>();
         levelChanger.BlockCreated();
         gameManager = FindObjectOfType<GameManager>();
+
+        if (invisible)
+        {
+            spriteRenderer.enabled = false;
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        if (invisible)
+        {
+            spriteRenderer.enabled = true;
+            invisible = false;
+            return;
+        }
+
         hits--;
 
         if (hits == 2)

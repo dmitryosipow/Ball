@@ -21,7 +21,7 @@ public class HealthBar : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        print("currentHealth " + currentHealth);
+        //print("currentHealth " + currentHealth);
         for (int i = 0; i < hearts.Length; i++)
         {
             if (i < currentHealth)

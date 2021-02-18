@@ -21,14 +21,13 @@ public class GameManager : MonoBehaviour
                 Destroy(gameObject);
                 break;
             }
-
         }
     }
     // Start is called before the first frame update
     void Start()
     {
-        currentHealth = 3;
-        healthBar.currentHealth = currentHealth;
+        print("start " + currentHealth);
+        RestartLevel();
         DontDestroyOnLoad(gameObject);
         UpdateScore(0);
     }
@@ -41,6 +40,7 @@ public class GameManager : MonoBehaviour
 
     public void DecreaseHealth()
     {
+        print("curr health " + currentHealth);
         currentHealth--;
         healthBar.currentHealth = currentHealth;
         if (currentHealth <= 0)
