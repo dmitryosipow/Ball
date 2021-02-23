@@ -16,6 +16,11 @@ public class Ball : MonoBehaviour
     float padHeight;
     GameManager gameManager;
 
+    [Header("Параметры взрыва мяча")]
+    public float explodeRadius;
+    public bool isExplode;
+    public GameObject explodeEffect;
+
     private void Start()
     {
         score.Reset();
@@ -54,12 +59,28 @@ public class Ball : MonoBehaviour
         isStarted = true;
     }
 
+    private void OnDrawGizmos()
+    {
+        if (Application.isPlaying)
+        {
+            Gizmos.DrawRay(transform.position, rb.velocity);
+        }
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, explodeRadius);
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if(collision.gameObject.tag == "player")
         {
             score.AddHit();
-        }  
+        }
+        if (isExplode && collision.gameObject.CompareTag("block"))
+        {
+            print("yo");
+            Explode();
+        }
     }
 
     private void OnCollisionExit2D(Collision2D collision)
@@ -67,8 +88,34 @@ public class Ball : MonoBehaviour
 
     }
 
+    public void ActivateExplode()
+    {
+        isExplode = true;
+        explodeEffect.SetActive(true);
+    }
+
     public void Restart()
     {
         isStarted = false;
+    }
+
+    void Explode()
+    {
+        int layerMask = LayerMask.GetMask("block");
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, explodeRadius, layerMask);
+        foreach (Collider2D col in colliders)
+        {
+            Block block = col.GetComponent<Block>();
+            if (block == null)
+            {
+                Destroy(gameObject);
+            }
+            else
+            {
+                print("destroy on explode");
+
+                block.DestroyBlock();
+            }
+        }
     }
 }

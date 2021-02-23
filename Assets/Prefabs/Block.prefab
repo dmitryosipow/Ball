@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 6911864550033982967}
   - component: {fileID: 4178028597219730551}
   - component: {fileID: 9105752817007450224}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Block
-  m_TagString: Untagged
+  m_TagString: block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -124,3 +124,7 @@ MonoBehaviour:
   points: 200
   spriteLightDamage: {fileID: 21300000, guid: 0174079e1e40b744a919c80f50a62221, type: 3}
   spriteHeavyDamage: {fileID: 21300000, guid: 6c99ee3b9c2d1224587d7bea120cdfd0, type: 3}
+  pickupPrefab: {fileID: 0}
+  particlePrefab: {fileID: 1892078723244562, guid: 46876a2780737ec45a19d62f88e5ce56,
+    type: 3}
+  invisible: 0

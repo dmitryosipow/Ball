@@ -7,17 +7,24 @@ public class Pad : MonoBehaviour
     Ball ball;
     public bool isStarted;
     float yPosition;
-    // Start is called before the first frame update
+    public GameManager gameManager;
+
     void Start()
     {
         ball = FindObjectOfType<Ball>();
+        gameManager = FindObjectOfType<GameManager>();
         yPosition = transform.position.y;
     }
 
-    // Update is called once per frame
+    
     void Update()
     {
-        if(isStarted)
+        if (gameManager.pauseActive)
+        {
+            return;
+        }
+
+        if (isStarted)
         {
             Vector3 newPadPos = new Vector3(ball.transform.position.x, yPosition, 0);
             transform.position = newPadPos;
@@ -28,7 +35,7 @@ public class Pad : MonoBehaviour
 
             Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(mousePixelPoint);
 
-            mouseWorldPosition.x = Mathf.Clamp(mouseWorldPosition.x, -7.29f, 7.29f);
+            mouseWorldPosition.x = Mathf.Clamp(mouseWorldPosition.x, -4.29f, 4.29f);
 
             var pos = transform.position;
             pos.x = mouseWorldPosition.x;

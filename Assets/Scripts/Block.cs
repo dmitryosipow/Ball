@@ -16,6 +16,7 @@ public class Block : MonoBehaviour
 
     [Tooltip("Effects and prefabs")]
     public GameObject pickupPrefab;
+    public GameObject particlePrefab;
     public bool invisible;
 
 
@@ -54,16 +55,25 @@ public class Block : MonoBehaviour
 
         if(hits <= 0)
         {
+            print("destroy on collision");
             DestroyBlock();
         }
 
     }
 
-    private void DestroyBlock()
+    public void DestroyBlock()
     {
+        Destroy(gameObject);
         gameManager.UpdateScore(points);
         levelChanger.BlockDestroyed();
-        Destroy(gameObject);
-        //Instantiate(pickupPrefab);
+        
+        if (pickupPrefab)
+        {
+            Instantiate(pickupPrefab, transform.position, Quaternion.identity);
+        }
+        if (particlePrefab)
+        {
+            Instantiate(particlePrefab, transform.position, Quaternion.identity);
+        }
     }
 }
