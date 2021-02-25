@@ -7,7 +7,10 @@ public class Pad : MonoBehaviour
     Ball ball;
     public bool isStarted;
     float yPosition;
-    public GameManager gameManager;
+    GameManager gameManager;
+
+    [Header("Magnet effect")]
+    public GameObject magnetEffect;
 
     void Start()
     {
@@ -35,7 +38,7 @@ public class Pad : MonoBehaviour
 
             Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(mousePixelPoint);
 
-            mouseWorldPosition.x = Mathf.Clamp(mouseWorldPosition.x, -4.29f, 4.29f);
+            mouseWorldPosition.x = Mathf.Clamp(mouseWorldPosition.x, -7.4f, 7.4f);
 
             var pos = transform.position;
             pos.x = mouseWorldPosition.x;
@@ -43,5 +46,26 @@ public class Pad : MonoBehaviour
             transform.position = pos;
         }
         
+    }
+
+    public void ActivateMagnet(bool active, float duration = 1f)
+    {
+        magnetEffect.SetActive(active);
+
+        if(active)
+        {
+            StartCoroutine(StopMagnetAfterDelay(duration));
+        }
+    }
+
+    IEnumerator StopMagnetAfterDelay(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        ActivateMagnet(false);
+    }
+
+    public void ChangeSize(float sizeScale)
+    {
+        transform.localScale = new Vector2(sizeScale, 1);
     }
 }

@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ExplodePickup : MonoBehaviour
+public class ChangeBallSpeedPickup : MonoBehaviour
 {
+    public float koof;
     void ApplyEffect()
     {
         Ball[] balls = FindObjectsOfType<Ball>();
         foreach (Ball bal in balls)
         {
-            bal.ActivateExplode();
+            bal.ChangeSpeed(koof);
         }
     }
 

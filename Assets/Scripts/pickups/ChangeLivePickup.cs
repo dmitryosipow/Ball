@@ -2,15 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ExplodePickup : MonoBehaviour
+public class ChangeLivePickup : MonoBehaviour
 {
+    public int deltaAdd;
     void ApplyEffect()
     {
-        Ball[] balls = FindObjectsOfType<Ball>();
-        foreach (Ball bal in balls)
-        {
-            bal.ActivateExplode();
-        }
+        GameManager gm = FindObjectOfType<GameManager>();
+        gm.ChangeHealth(deltaAdd);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

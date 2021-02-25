@@ -57,11 +57,11 @@ public class GameManager : MonoBehaviour
         scoreText.text = score.ToString();
     }
 
-    public void DecreaseHealth()
+    public void ChangeHealth(int delta)
     {
         print("curr health " + currentHealth);
-        currentHealth--;
-        healthBar.currentHealth = currentHealth;
+        currentHealth+=delta;
+        healthBar.SetHealth(currentHealth);
         if (currentHealth <= 0)
         {
             SceneManager.LoadScene("Finish");

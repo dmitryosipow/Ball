@@ -19,8 +19,15 @@ public class LoseGame : MonoBehaviour
         print(collision.gameObject.tag);
         if (collision.gameObject.CompareTag("ball"))
         {
+            Ball[] balls = FindObjectsOfType<Ball>();
+            if(balls.Length > 1)
+            {
+                Destroy(collision.gameObject);
+                return;
+            }
+
             ball.Restart();
-            gameManager.DecreaseHealth();
+            gameManager.ChangeHealth(-1);
         }
         else
         {

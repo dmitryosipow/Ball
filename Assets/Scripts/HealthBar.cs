@@ -43,4 +43,11 @@ public class HealthBar : MonoBehaviour
             }
         }
     }
+
+    public void SetHealth(int health)
+    {
+        currentHealth = health;
+        totalHealth = Mathf.Max(currentHealth, totalHealth);
+        totalHealth = Mathf.Min(totalHealth, hearts.Length);
+    }
 }

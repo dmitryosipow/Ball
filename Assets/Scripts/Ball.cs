@@ -9,25 +9,29 @@ public class Ball : MonoBehaviour
     public ScoreSO score;
     public Pad pad;
     public int speed;
+    float speedCoeff = 1;
     Vector2 force;
     bool isStarted;
 
     float radius;
     float padHeight;
+    float xDelta;
     GameManager gameManager;
 
     [Header("Параметры взрыва мяча")]
     public float explodeRadius;
-    public bool isExplode;
     public GameObject explodeEffect;
+
+    bool isMagnetActive;
+    bool isExplode;
+
+    [Header("Cлед мяча")]
+    public TrailRenderer trail;
 
     private void Start()
     {
         score.Reset();
-        gameManager = FindObjectOfType<GameManager>();
-        rb = GetComponent<Rigidbody2D>();
-        radius = GetComponent<CircleCollider2D>().radius;
-        padHeight = pad.GetComponent<BoxCollider2D>().size.y; 
+        Initialize();
     }
     private void Update()
     {
@@ -38,7 +42,7 @@ public class Ball : MonoBehaviour
 
         if (!isStarted)
         {
-            transform.position = new Vector3(pad.transform.position.x, pad.transform.position.y + radius + padHeight*0.5f, 0);
+            transform.position = new Vector3(pad.transform.position.x + xDelta, pad.transform.position.y + radius + padHeight*0.5f, 0);
             if (Input.GetMouseButtonDown(0))
             {
                 StartBall();
@@ -46,8 +50,16 @@ public class Ball : MonoBehaviour
         }
         else
         {
-            rb.velocity = rb.velocity.normalized * speed;
+            rb.velocity = rb.velocity.normalized * speed * speedCoeff;
         }
+    }
+
+    void Initialize()
+    {
+        gameManager = FindObjectOfType<GameManager>();
+        rb = GetComponent<Rigidbody2D>();
+        radius = GetComponent<CircleCollider2D>().radius;
+        padHeight = pad.GetComponent<BoxCollider2D>().size.y;
     }
 
     void StartBall()
@@ -75,6 +87,12 @@ public class Ball : MonoBehaviour
         if(collision.gameObject.tag == "player")
         {
             score.AddHit();
+
+            if (isMagnetActive)
+            {
+                xDelta = transform.position.x - pad.transform.position.x;
+                Restart();
+            }
         }
         if (isExplode && collision.gameObject.CompareTag("block"))
         {
@@ -83,15 +101,37 @@ public class Ball : MonoBehaviour
         }
     }
 
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-
-    }
-
     public void ActivateExplode()
     {
         isExplode = true;
         explodeEffect.SetActive(true);
+    }
+
+    public void ActivateMagnet(bool active, float duration = 1f)
+    {
+        isMagnetActive = active;
+
+        if (active)
+        {
+            StartCoroutine(StopMagnetAfterDelay(duration));
+        }
+    }
+
+    IEnumerator StopMagnetAfterDelay(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        ActivateMagnet(false);
+    }
+
+    public void ChangeSize(float sizeScale)
+    {
+        transform.localScale = new Vector2(sizeScale, sizeScale);
+        trail.startWidth = sizeScale;
+    }
+
+    public void ChangeSpeed(float koof)
+    {
+        speedCoeff = koof;
     }
 
     public void Restart()
@@ -116,6 +156,20 @@ public class Ball : MonoBehaviour
 
                 block.DestroyBlock();
             }
+        }
+    }
+
+    public void Duplicate()
+    {
+        Ball originalBall = this;
+
+        Ball newBall = Instantiate(originalBall);
+        newBall.Initialize();
+        newBall.speedCoeff = speedCoeff;
+        newBall.StartBall();
+        if (isMagnetActive)
+        {
+            newBall.ActivateMagnet(true);
         }
     }
 }

@@ -100,9 +100,10 @@ MonoBehaviour:
   score: {fileID: 11400000, guid: b5bbbe403687fd54caae998a8a6ef720, type: 2}
   pad: {fileID: 0}
   speed: 7
-  explodeRadius: 0
+  explodeRadius: 3.5
   isExplode: 0
-  explodeEffect: {fileID: 0}
+  explodeEffect: {fileID: 6348332871962712630}
+  trail: {fileID: 8747803325358671638}
 --- !u!58 &8747803324935512258
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -349,6 +350,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9e4577abe56a95f4a91d29a0473cd30c, type: 3}
+--- !u!1 &6348332871962712630 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1545806602296978, guid: 9e4577abe56a95f4a91d29a0473cd30c,
+    type: 3}
+  m_PrefabInstance: {fileID: 6349146368211027108}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6346537883928256420 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4464497929771776, guid: 9e4577abe56a95f4a91d29a0473cd30c,

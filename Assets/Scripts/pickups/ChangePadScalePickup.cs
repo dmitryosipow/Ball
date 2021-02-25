@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ExplodePickup : MonoBehaviour
+public class ChangePadScalePickup : MonoBehaviour
 {
+    public float sizeScale;
     void ApplyEffect()
     {
-        Ball[] balls = FindObjectsOfType<Ball>();
-        foreach (Ball bal in balls)
-        {
-            bal.ActivateExplode();
-        }
+        Pad pad = FindObjectOfType<Pad>();
+
+        pad.ChangeSize(sizeScale);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

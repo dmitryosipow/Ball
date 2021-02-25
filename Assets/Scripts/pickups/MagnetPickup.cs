@@ -2,15 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ExplodePickup : MonoBehaviour
+public class MagnetPickup : MonoBehaviour
 {
+    float duration = 10f;
     void ApplyEffect()
     {
         Ball[] balls = FindObjectsOfType<Ball>();
         foreach (Ball bal in balls)
         {
-            bal.ActivateExplode();
+            bal.ActivateMagnet(true, duration);
         }
+
+        Pad pad = FindObjectOfType<Pad>();
+        pad.ActivateMagnet(true, duration);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
